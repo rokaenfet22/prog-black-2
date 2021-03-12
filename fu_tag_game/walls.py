@@ -7,7 +7,7 @@ def gen_wall():
     window=pygame.display.set_mode((window_x,window_y))
 
     wall_size=20 #divide 300x300 screen into 20x20 pixel blocks
-    wall_rects=[]
+    wall_rects=[] #list
 
     def draw_rect(c,color="black",w=1):
         pygame.draw.rect(window,pygame.Color(color),(c[0],c[1],c[2],c[3]),w)
