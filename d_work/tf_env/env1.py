@@ -18,7 +18,7 @@ init_it_pos=(16.7,16.7)
 init_player_pos=(25,25)
 max_walls=7
 
-
+#TF env for use with TF-agents
 class TagEnv(py_environment.PyEnvironment):
     def __init__(self,it_player,player,wall_list,screen_size,acceleration,screen): #initially local vars
         self.it_player = it_player
