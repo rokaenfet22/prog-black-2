@@ -20,7 +20,7 @@ max_walls=7
 
 
 class TagEnv(py_environment.PyEnvironment):
-    def __init__(self,it_player,player,wall_list,screen_size,acceleration,screen):
+    def __init__(self,it_player,player,wall_list,screen_size,acceleration,screen): #initially local vars
         self.it_player = it_player
         self.a=acceleration
         self.player = player
@@ -77,14 +77,13 @@ class TagEnv(py_environment.PyEnvironment):
         """
         return ts.time_step_spec(tensor_spec.from_spec(self.observation_spec()), tensor_spec.from_spec(self.reward_spec()))
 
-    def _reset(self):
+    def _reset(self): #reset states
         self._state = [init_it_pos[0],init_it_pos[1],init_player_pos[0],init_player_pos[1],0,0,0,0]
-
         self.steps=0
         self._episode_ended = False
         self._current_time_step=ts.restart(np.array(self._state, dtype=np.float32))
         return self._current_time_step
-    def _step(self,action):
+    def _step(self,action): #step calc
         if self._episode_ended:
             # The last action ended the episode. Ignore the current action and start
             # a new episode.
@@ -113,11 +112,11 @@ class TagEnv(py_environment.PyEnvironment):
         else:
             return ts.transition(np.array(self._state,dtype=np.float32),reward=self.calculate_reward(), discount=1.0)
 
-    def calculate_reward(self):
+    def calculate_reward(self): #return reward based on position and distance between 2 entities
         a = np.array(self.it_player.get_pos())
         b = np.array(self.player.get_pos())
         return float(75-(np.sum((a-b)**2))**(1/2))
-    def get_state(self):
+    def get_state(self): #return current state from current postions of entities
         '''
         [
         [it_x,it_y,opp_x,opp_y,it_vx,it_vy,opp_vx,opp_vy]
@@ -126,9 +125,7 @@ class TagEnv(py_environment.PyEnvironment):
         state=[self.it_player.get_pos()[0],self.it_player.get_pos()[1],self.player.get_pos()[0],self.player.get_pos()[1],self.it_player.get_velocity()[0],self.it_player.get_velocity()[1],self.player.get_velocity()[0],self.player.get_velocity()[1]]
         return state
     def get_init_state(self):
-        state=[
-            [init_it_pos[0], init_it_pos[1], init_player_pos[0], init_player_pos[1], 0, 0, 0, 0]
-        ]
+        state=[[init_it_pos[0], init_it_pos[1], init_player_pos[0], init_player_pos[1], 0, 0, 0, 0]] #return start state from start pos
         return state
     def render(self):
         # Draw the scene
@@ -138,12 +135,13 @@ class TagEnv(py_environment.PyEnvironment):
             r = pygame.Rect(self.screen_w, 0, self.screen.get_size()[0] - self.screen_w,
                             self.screen_h)
             pygame.draw.rect(self.screen, (0, 0, 0), r)
-        for wall in self.wall_list:
+        for wall in self.wall_list: #draw walls
             wall_rect = pygame.Rect(wall[0], wall[1], wall[2], wall[3])
             pygame.draw.rect(self.screen, (0, 0, 0), wall_rect)
+        #draw both entities
         pygame.draw.rect(self.screen, self.it_player.color, self.it_player.rect)
         pygame.draw.rect(self.screen, self.player.color, self.player.rect)
-        pygame.display.flip()
+        pygame.display.flip() #update screen
 
 
 
