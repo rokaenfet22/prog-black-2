@@ -256,20 +256,6 @@ def build_q_network(layer_structure,n_actions, learning_rate, input_shape, scree
     for layer in layer_structure[1:]:
         x = dense_layer(layer)(x)
 
-    # Split into value and advantage streams
-    # val_stream, adv_stream = Lambda(lambda w: tf.split(w, 2, 1))(x)  # custom splitting layer
-    #
-    # val_stream = Flatten()(val_stream)
-    # val = Dense(1, kernel_initializer=VarianceScaling(scale=2.))(val_stream)
-    #
-    #
-    # adv_stream = Flatten()(adv_stream)
-    #adv = Dense(n_actions, kernel_initializer=VarianceScaling(scale=2.))(adv_stream)
-
-    # Combine streams into Q-Values
-   # reduce_mean = Lambda(lambda w: tf.reduce_mean(w, axis=1, keepdims=True))  # custom layer for reduce mean
-    #q_vals = Add()([val, Subtract()([adv, reduce_mean(adv)])])
-
     q_vals=Dense(n_actions, kernel_initializer=VarianceScaling(scale=2.))(x)
     # Build model
     model = Model(model_input, q_vals)
