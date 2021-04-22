@@ -262,9 +262,7 @@ def build_q_network(layer_structure,n_actions, learning_rate, input_shape, scree
     return model
 
 class ReplayBuffer:
-    """Replay Buffer to store transitions.
-    This implementation was heavily inspired by Fabio M. Graetz's replay buffer
-    here: https://github.com/fg91/Deep-Q-Learning/blob/master/DQN.ipynb"""
+    """Replay Buffer to store transitions."""
     def __init__(self, size, input_shape,use_per=False):
         """
         Arguments:
