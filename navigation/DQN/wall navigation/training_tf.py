@@ -27,7 +27,7 @@ def train():
 
     INPUT_SHAPE = (20,)            # Size of the preprocessed input frame. With the current model architecture, anything below ~80 won't work.
     screen_size = (5, 5)
-    BATCH_SIZE = 32              # Number of samples the agent learns from at once
+    BATCH_SIZE = 16              # Number of samples the agent learns from at once
     LEARNING_RATE = 0.001
     layer_structure=(50,10,5)
     #ENV details
@@ -89,12 +89,10 @@ def train():
                   # Get action
                   state = np.reshape(np.array(game_wrapper.get_state()),(1,20))
                   game_wrapper.render(len_scale_factor=render_scale_factor)
-                  time.sleep(0.1)
                   runner_action = runner_agent.get_action(frame_number, state,evaluation=False)
                   # Take step
                   new_state, reward, terminal, info = game_wrapper.step(runner_action,catcher=False)
                   game_wrapper.render(len_scale_factor=render_scale_factor)
-                  time.sleep(0.1)
                   new_state = np.reshape(new_state, (1, 20))
                   #catcher action
                   catcher_action = catcher_agent.get_action(0, new_state, evaluation=True)
