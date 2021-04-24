@@ -29,7 +29,7 @@ class GameWrapper(TagEnv):
         super(GameWrapper, self).__init__(catcher,runner,wall_list,screen_size,acceleration,screen,init_catcher_pos=init_catcher_pos,init_runner_pos=init_runner_pos)
 
     def get_state(self,reduced=True,catcher=True):#using vision . if reduced (1,20)   else: (1,28)
-        #state=[catcher_x,catcher_y,runner_x,runner_y,catcher_vx,catcher_vy,runner_vx,runner_vy,
+        #state=[catcher_x,catcher_y,runner_x,runner_y
     #           N,NE,E,SE,S,SW,W,NW,
     #           N_distance, NE_distance, E_distance, SE_distance, S_distance, SW_distance, W_disstance, NW_distance]
         directions, distances = self.get_vision(catcher=catcher)
@@ -228,8 +228,7 @@ class GameWrapper(TagEnv):
                     directions[7] = 2
                     distances[7] = distance - np.sqrt(2)
                     break
-        #print(f'directions:{directions}')
-        #print(f'distances:{distances}')
+
         return directions,distances
 
 
@@ -239,7 +238,6 @@ def dense_layer(num_units):
       activation='tanh',
       kernel_initializer=VarianceScaling(
           scale=2.0, mode='fan_in', distribution='truncated_normal'))
-
 def build_q_network(layer_structure,n_actions, learning_rate, input_shape, screen_size):
     """Builds a  DQN as a Keras model
     Arguments:
