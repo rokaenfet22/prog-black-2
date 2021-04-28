@@ -37,7 +37,7 @@ class Game:
                 raise SystemExit("IT tagged PLAYER")
 
             #Draw the scene
-            self.screen.fill((255, 255, 255))
+            self.screen.fill(pygame.Colour("white"))
             #fill screen excess black
             if self.screen.get_size()!=self.screen_size:
                 r=pygame.Rect(self.screen_size[0],0,self.screen.get_size()[0]-self.screen_size[0],self.screen_size[1])
@@ -47,5 +47,5 @@ class Game:
                 pygame.draw.rect(self.screen, (0, 0, 0), wall_rect)
             pygame.draw.rect(self.screen, self.it_player.color, self.it_player.rect)
             pygame.draw.rect(self.screen, self.player.color, self.player.rect)
-            pygame.display.flip()
+            pygame.display.update()
 
