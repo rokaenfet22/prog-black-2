@@ -16,7 +16,7 @@ def train():
     EVAL_LENGTH = 500              # Number of frames to evaluate for
     eps_annealing_frames=75000
 
-    DISCOUNT_FACTOR = 0.8            # Gamma, how much to discount future rewards
+    DISCOUNT_FACTOR = 0.3            # Gamma, how much to discount future rewards
     MIN_REPLAY_BUFFER_SIZE = 400    # The minimum size the replay buffer must be before we start to update the agent
     MEM_SIZE = 1000000                # The maximum size of the replay buffer
 
@@ -26,7 +26,7 @@ def train():
     INPUT_SHAPE = (8,)            # Size of the preprocessed input frame. With the current model architecture, anything below ~80 won't work.
     screen_size = (5, 5)
     BATCH_SIZE = 4               # Number of samples the agent learns from at once
-    LEARNING_RATE = 0.00025
+    LEARNING_RATE = 0.001
 
     #ENV details
 
