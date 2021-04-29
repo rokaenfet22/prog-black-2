@@ -7,8 +7,8 @@ def train():
     SAVE_PATH = 'saved_models/tag2/navigation/walls_no_v'
     LOAD_REPLAY_BUFFER = True
 
-    USE_PER=True                     # Use Priority Experience Replay
-    PRIORITY_SCALE=0.8               #How much to weight priorities when sampling the replay buffer. 0 = completely random, 1 = completely based on priority
+    USE_PER=True                    # Use Priority Experience Replay
+    PRIORITY_SCALE=0.7               #How much to weight priorities when sampling the replay buffer. 0 = completely random, 1 = completely based on priority
     #hyper
     TOTAL_FRAMES = 25000          #Total number of frames to train for
     MAX_EPISODE_LENGTH = 40       # Maximum length of an episode (in frames).  18000 frames / 60 fps = 5 minutes
