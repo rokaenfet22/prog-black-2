@@ -32,7 +32,7 @@ class Nav(chainer.Chain): #class for the DQN
             self.l3=L.Linear(n_hidden_channels,n_hidden_channels)
             self.l4=L.Linear(n_hidden_channels,n_actions)
     def __call__(self,x,test=False): #activation function = sigmoid
-        h1=F.sigmoid(self.l1(x))
+        h1=F.sigmoid(self.l1(x)) #options including tanh, sigmoid, relu, and variants of those too
         h2=F.sigmoid(self.l2(h1))
         h3=F.sigmoid(self.l3(h2))
         y=chainerrl.action_value.DiscreteActionValue(self.l4(h3)) #agent chooses distinct action from finite action set
@@ -86,6 +86,7 @@ def random_action(): #returns random action, used by "explorer"
 def setup(gamma,obs_size,n_actions,n_hidden_channels,start_epsilon=1,end_epsilon=0.1,num_episodes=1): #the skeletal structure of my agent.
     func=Nav(obs_size,n_actions,n_hidden_channels) #model's structure defined here
     optimizer=chainer.optimizers.Adam(eps=1e-8) #optimizer chosen
+    #optimizer=chainer.optimizers.AdaDelta(eps=1e-8)
     optimizer.setup(func)
     #explorer setup
     explorer=chainerrl.explorers.LinearDecayEpsilonGreedy(start_epsilon=start_epsilon,end_epsilon=end_epsilon,decay_steps=num_episodes,random_action_func=random_action)
@@ -93,6 +94,8 @@ def setup(gamma,obs_size,n_actions,n_hidden_channels,start_epsilon=1,end_epsilon
     phi=lambda x: x.astype(np.float32,copy=False) #must be float32 for chainer
     #defining network type and setting up agent. Required parameter differs for most networks (e.g. DDPG, AC3, DQN)
     agent=chainerrl.agents.DQN(func,optimizer,replay_buffer,gamma,explorer,replay_start_size=300,update_interval=1,target_update_interval=50,phi=phi)
+    #agent=chainerrl.agents.DoubleDQN(func,optimizer,replay_buffer,gamma,explorer,replay_start_size=300,update_interval=1,target_update_interval=50,phi=phi)
+    #agent=chainerrl.agents.AC3(func,optimizer,replay_buffer,gamma,explorer,replay_start_size=300,update_interval=1,target_update_interval=50,phi=phi)
     return agent
 
 #given current state s, and action a from network, returns next state and reward for that action a
